@@ -1,6 +1,5 @@
-## AttenDone
+## AttenDone 🌱
 ### An app for students and teachers to simplify the attendance tracking procedure
-
 ### `Story Time`
 Hi, I am Ragini Mishra. I am the creator of this application. While I was in college (2020-2023), I struggled a lot to keep track of my attendance (I was not regular so....it's more important to keep note of when you DID attend classes). Not only me but my teachers also had trouble marking attendance of students and keeping track of their monthly attendnace. Being a computer science students, I always wondered why they don't digitize this process. It's a shame that students studying such heavily automated field have to maintain something as attendance so manually. This gave me the idea to make a platform to ease up the process of attendance marking and tracking.
 
