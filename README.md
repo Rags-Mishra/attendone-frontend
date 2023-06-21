@@ -1,70 +1,17 @@
-# Getting Started with Create React App
+## AttenDone
+### An app for students and teachers to simplify the attendance tracking procedure
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### `Story Time`
+Hi, I am Ragini Mishra. I am the creator of this application. While I was in college (2020-2023), I struggled a lot to keep track of my attendance (I was not regular so....it's more important to keep note of when you DID attend classes). Not only me but my teachers also had trouble marking attendance of students and keeping track of their monthly attendnace. Being a computer science students, I always wondered why they don't digitize this process. It's a shame that students studying such heavily automated field have to maintain something as attendance so manually. This gave me the idea to make a platform to ease up the process of attendance marking and tracking.
 
-## Available Scripts
+### `Tech Stack`
+This is a **MERN Project**.
+Here's a breakdown of each component in the MERN stack:
 
-In the project directory, you can run:
+MongoDB: MongoDB is a NoSQL database that stores data in a flexible, JSON-like format called BSON (Binary JSON). It allows developers to work with dynamic and schema-less data, making it suitable for handling complex data structures. MongoDB is used as the database to store and retrieve application data.
 
-### `npm start`
+Express.js: Express.js is a minimal and flexible web application framework for Node.js. It provides a set of features and tools for building web applications and APIs. Express.js simplifies server-side development by handling HTTP requests, routing, middleware, and other essential functionality.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+React.js: React.js is a popular JavaScript library for building user interfaces. It allows developers to create reusable UI components and efficiently update the user interface based on data changes. React.js follows a component-based architecture, which makes it easier to manage complex UI structures and provides a smooth user experience.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Node.js: Node.js is a JavaScript runtime environment built on Chrome's V8 JavaScript engine. It enables server-side JavaScript execution and allows developers to build scalable and high-performance web applications. Node.js provides a rich set of libraries and frameworks, making it suitable for building server-side logic in a MERN project. 
