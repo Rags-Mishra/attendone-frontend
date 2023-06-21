@@ -14,8 +14,7 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
-let url = "http://localhost:4000";
-console.log(url)
+let url = process.env.REACT_APP_URL;
 const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),

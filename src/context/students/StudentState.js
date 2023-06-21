@@ -4,7 +4,7 @@ import StudentContext from "./studentContext";
 import studentReducer from "./studentReducer";
 import AuthContext from "../auth/authContext";
 import { GET_STUDENTS } from "../types";
-let url = "http://localhost:4000";
+let url = process.env.REACT_APP_URL;
 
 const StudentState = (props) => {
   const initialState = {

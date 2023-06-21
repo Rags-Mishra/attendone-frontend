@@ -3,8 +3,7 @@ import axios from "axios";
 import AttendanceContext from "./attendanceContext";
 import attendanceReducer from "./attendanceReducer";
 import { MARK_ATTENDANCE, GET_ATTENDANCES,ATTENDANCE_ERROR } from "../types";
-let url = "http://localhost:4000";
-
+let url = process.env.REACT_APP_URL;
 const AttendanceState = (props) => {
   const initialState = {
     attendances: null,
