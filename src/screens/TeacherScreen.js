@@ -59,7 +59,7 @@ const TeacherScreen = () => {
                 }
               >
                 <Grid item md={12} xs={12} sx={{ display: "flex" }}>
-                  <Typography sx={{ color: "ActiveCaption",
+                  <Typography sx={{ color: "black",
                         alignSelf: "flex-start",
                         maxWidth: { xs: "60vw", md: "30vw" },
                         fontSize:{xs:'15px'} }} 
