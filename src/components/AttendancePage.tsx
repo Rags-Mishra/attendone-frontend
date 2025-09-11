@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Navbar } from "@/components/Navbar"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -10,7 +10,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { Users, CalendarIcon, Save, UserCheck, UserX, Clock, CheckCircle2, XCircle, AlertCircle } from "lucide-react"
+import { Users, CalendarIcon, Save, CheckCircle2, XCircle, AlertCircle } from "lucide-react"
 import { useAttendance } from "@/hooks/useAttendance"  // 👈 using your custom hook
 import { useAuth } from "@/hooks/useAuth"
 import type { Student } from "@/context/attendance/AttendanceContext"
@@ -87,10 +87,6 @@ console.log({
     }
   }
 
-  const PresentCount = students.filter((s) => s.status === "Present").length
-  const AbsentCount = students.filter((s) => s.status === "Absent").length
-  const LateCount = students.filter((s) => s.status === "Late").length
-  const attendanceRate = students.length > 0 ? (((PresentCount + LateCount) / students.length) * 100).toFixed(1) : 0
 
   return (
     <div className="min-h-screen bg-background">
@@ -211,7 +207,7 @@ console.log({
                         </div>
                         <div>
                           <p className="font-medium text-card-foreground">{student.name}</p>
-                          <p className="text-sm text-muted-foreground">Roll No: {student.rollNumber}</p>
+                          {/* <p className="text-sm text-muted-foreground">Roll No: {student.rollNumber}</p> */}
                         </div>
                       </div>
 

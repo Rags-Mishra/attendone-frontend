@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import AttendanceContext from "./AttendanceContext";
 import type { Class, Student, AttendanceContextType } from "./AttendanceContext";
 import api from "@/lib/axios";
@@ -58,7 +57,7 @@ const fetchClasses = async () => {
   const markAttendance = async (
     classId: string,
     date: string,
-    records: Record<string, boolean> // { studentId: true/false }
+    records: Record<string, string>[] // { studentId: true/false }
   ) => {
     try {
       await api.post(`/attendance/mark`, {

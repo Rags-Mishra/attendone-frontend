@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import axios from "axios";
 import DashboardContext from "./DashboardContext";
 import type {  DashboardContextType, DashboardData } from "./DashboardContext";
 import api from "@/lib/axios";

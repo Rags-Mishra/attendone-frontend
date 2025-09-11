@@ -3,6 +3,7 @@ import { createContext } from "react";
 export interface Class {
   id: string;
   name: string;
+  student_count:string;
 }
 
 export interface Student {
@@ -18,7 +19,7 @@ export interface AttendanceContextType {
   loading: boolean;
   fetchClasses: () => Promise<void>;
   fetchStudents: (classId: string) => Promise<void>;
-  markAttendance: (classId: string, date: string, records: Record<string, boolean>) => Promise<void>;
+  markAttendance: (classId: string, date: string, records: Record<string, string>[]) => Promise<void>;
 }
 
 const AttendanceContext = createContext<AttendanceContextType | undefined>(undefined);

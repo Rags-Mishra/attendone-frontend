@@ -1,5 +1,5 @@
 // src/context/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthContext, type User } from "./AuthContext";
 
@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   };
   const register = async ({ name, email, password,role }: any) => {
-    const res = await api.post("/auth/signup", { name, email, password,role });
+    await api.post("/auth/signup", { name, email, password,role });
   };
   // --- Logout ---
   const logout = async () => {

@@ -19,7 +19,7 @@ import {
 import { useAuth } from "@/hooks/useAuth"
 import { useNavigate } from "react-router-dom"
 import { useDashboard } from "@/hooks/useDashboard"
-import { useEffect, useMemo } from "react"
+import { useEffect } from "react"
 
 export default function HomePage() {
   // Mock user data - replace with your actual auth logic
@@ -27,13 +27,7 @@ export default function HomePage() {
 const navigate = useNavigate()
 const {dashboardData,fetchDashboardData}=useDashboard()
   const teacherData = {
-    attendanceStats: {
-      totalStudents: 156,
-      presentToday: 142,
-      absentToday: 14,
-      attendanceRate: 91.0,
-      lateArrivals: 8,
-    },
+ 
     recentActivity: [
       { action: "Attendance marked", class: "Grade 10A", time: "2 hours ago" },
       { action: "Report generated", class: "Grade 9B", time: "4 hours ago" },
@@ -57,13 +51,11 @@ const {dashboardData,fetchDashboardData}=useDashboard()
   }
 
   const isTeacher = user&&user.role === "teacher"||user&&user.role==="admin"
-  const stats = isTeacher ? teacherData.attendanceStats : studentData.attendanceStats
+  const stats = studentData.attendanceStats
   const recentActivity = isTeacher ? teacherData.recentActivity : studentData.recentActivity
 
-  const handleLogout = () => {
-    // Implement your logout logic here
-    console.log("Logging out...")
-  }
+
+  console.log(stats)
 useEffect(() => {
   // fetchDashboardData()
   if((user?.role=='admin'||user?.role=='teacher')&&token){

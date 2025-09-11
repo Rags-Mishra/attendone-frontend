@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { User, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "@/hooks/useAuth"
 
 const Login = () => {
-  const [userType, setUserType] = useState("teacher")
   const [user, setUser] = useState({
     email: "",
     password: "",

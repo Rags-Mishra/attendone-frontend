@@ -1,6 +1,5 @@
 // src/context/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { createContext } from "react";
 
 export interface User {
   id: string;
