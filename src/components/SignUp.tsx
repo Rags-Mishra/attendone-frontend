@@ -1,53 +1,100 @@
-"use client"
+"use client";
 
-import type React from "react"
-import {  useState } from "react"
-import { Lock, Mail, UserCheck } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Link, useNavigate } from "react-router-dom"
-import { useAuth } from "@/hooks/useAuth"
-
+import type React from "react";
+import { useEffect, useState } from "react";
+import { Book, Lock, Mail, School, UserCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { useSchool } from "@/hooks/useSchool";
+interface UserDetails {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  schoolName?: string;
+  classSection?: string;
+}
 const Signup = () => {
-  const [userType, setUserType] = useState("teacher")
-  const [user, setUser] = useState({
+  const [userType, setUserType] = useState("teacher");
+  const [user, setUser] = useState<UserDetails>({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
-  
-const {register} = useAuth();
-const navigate = useNavigate();
-  const { name, email, password, confirmPassword } = user
+    schoolName: "",
+    classSection: "",
+  });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setUser({ ...user, [e.target.name]: e.target.value })
+  const { register } = useAuth();
+  const { schools, fetchSchools } = useSchool();
+  const navigate = useNavigate();
+  const { name, email, password, confirmPassword, schoolName, classSection } =
+    user;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (name === "" || email === "" || password === "" || confirmPassword === "") {
-      alert("Please fill in all fields")
-      return
+    e.preventDefault();
+    if (
+      name === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      alert("Please fill in all fields");
+      return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match")
-      return
+      alert("Passwords do not match");
+      return;
     }
     if (password.length < 6) {
-      alert("Password must be at least 6 characters long")
-      return
+      alert("Password must be at least 6 characters long");
+      return;
     }
-    register({
-        name:name,
-        email:email,
-        password:password,
-        role:userType
-    })
-    navigate('/login')
-    console.log("Signup attempt:", { name, email, userType })
-    alert(`Account created successfully as ${userType}!`)
-  }
-
+    if (userType === "admin") {
+      register({
+        name: name,
+        email: email,
+        password: password,
+        role: userType,
+        schoolName: schoolName,
+      });
+    } else if (userType === "teacher") {
+      register({
+        name: name,
+        email: email,
+        password: password,
+        role: userType,
+        schoolName: schoolName,
+      });
+    } else {
+      register({
+        name: name,
+        email: email,
+        password: password,
+        role: userType,
+        schoolName: schoolName,
+        class_section: classSection,
+      });
+    }
+    navigate("/login");
+    console.log("Signup attempt:", { name, email, userType });
+    alert(`Account created successfully as ${userType}!`);
+  };
+  useEffect(() => {
+    fetchSchools();
+  }, []);
   return (
     <div className="min-h-screen bg-background flex p-8 justify-center items-center">
       {/* Signup Form */}
@@ -55,7 +102,9 @@ const navigate = useNavigate();
         <div className="w-full max-w-md space-y-8">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-foreground mb-8 tracking-wider">SIGN UP</h1>
+            <h1 className="text-4xl font-bold text-foreground mb-8 tracking-wider">
+              SIGN UP
+            </h1>
           </div>
 
           {/* Signup Form */}
@@ -125,9 +174,91 @@ const navigate = useNavigate();
                 minLength={6}
               />
             </div>
-
+            {userType === "admin" && (
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <School className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <Input
+                  type="text"
+                  name="schoolName"
+                  value={schoolName}
+                  onChange={onChange}
+                  placeholder="School Name"
+                  className="w-full pl-10 py-4 bg-transparent border-0 border-b-2 border-border text-foreground placeholder-muted-foreground rounded-none focus:border-primary focus:ring-0 text-lg"
+                  required
+                />
+              </div>
+            )}
+            {(userType === "student" || userType === "teacher") && (
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <School className="h-5 w-5 text-muted-foreground" />
+                </div>{" "}
+                <Select
+                  onValueChange={(value: string) =>
+                    setUser({ ...user, schoolName: value })
+                  }
+                  value={user.schoolName}
+                >
+                  <SelectTrigger className="w-full pl-10">
+                    <SelectValue placeholder="Select your school">
+                      {(() => {
+                        const name = schools.find(
+                          (s: any) => s.id == user.schoolName
+                        )?.name;
+                        if (!name) return null;
+                        return name.length > 25
+                          ? name.slice(0, 25).concat("...")
+                          : name;
+                      })()}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {schools &&
+                      schools.map((school: any) => (
+                        <SelectItem key={school.id} value={school.id}>
+                          {school.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+            {userType === "student" && (
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Book className="h-5 w-5 text-muted-foreground" />
+                </div>{" "}
+                <Select
+                  onValueChange={(value: string) =>
+                    setUser({ ...user, classSection: value })
+                  }
+                  value={classSection}
+                >
+                  <SelectTrigger className="w-full pl-10">
+                    <SelectValue placeholder="Select your class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="hh">mdbfdjkf</SelectItem>
+                    <SelectItem value="hh">mdbfdjkf</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
             {/* User Type Toggle */}
             <div className="flex gap-2 mt-6">
+              <Button
+                type="button"
+                onClick={() => setUserType("admin")}
+                className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+                  userType === "admin"
+                    ? "bg-primary text-primary-foreground border border-border"
+                    : "bg-transparent text-muted-foreground border border-border hover:bg-muted"
+                }`}
+              >
+                Admin
+              </Button>
               <Button
                 type="button"
                 onClick={() => setUserType("teacher")}
@@ -192,13 +323,15 @@ const navigate = useNavigate();
             {/* Login Link */}
             <div className="text-center text-muted-foreground text-sm mt-8">
               {"Already have an account? "}
-              <Link to="/login" className="text-foreground hover:underline">Login</Link>
+              <Link to="/login" className="text-foreground hover:underline">
+                Login
+              </Link>
             </div>
           </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

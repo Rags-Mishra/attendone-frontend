@@ -7,28 +7,12 @@ import { useAuth } from "@/hooks/useAuth";
 
 
 export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [classes, setClasses] = useState<Class[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
 const {token}=useAuth();
-api.interceptors.request.use((config) => {
-  console.log("Final request headers:", config.headers);
-  return config;
-});
 
-const fetchClasses = async () => {
-    setLoading(true);
-    try {
-      const res = await api.get("/classes", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-      setClasses(res.data);
-    } catch (err) {
-      console.error("Error fetching classes", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
 
   const fetchStudents = async (classId: string) => {
     setLoading(true);
@@ -74,11 +58,9 @@ const fetchClasses = async () => {
   };
 
   const value: AttendanceContextType = {
-    classes,
     students,
     loading,
     setStudents,
-    fetchClasses,
     fetchStudents,
     markAttendance,
   };

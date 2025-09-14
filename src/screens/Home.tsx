@@ -64,7 +64,6 @@ useEffect(() => {
    console.log(dashboardData)
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
 
       {/* Main content with proper spacing for fixed navbar */}
       <main className="pt-16">

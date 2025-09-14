@@ -11,8 +11,14 @@ const api = axios.create({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [token, setAccessToken] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [token, setAccessToken] = useState<string>('');
+  const [user, setUser] = useState<User>({
+    name:'',
+    school_id:0,
+    role:'',
+    id:0,
+    email:''
+  });
   const [loading, setLoading] = useState(true);
 
   // --- Axios interceptor for auto refresh ---
@@ -37,8 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
             return api(originalRequest);
           } catch (err) {
-            setAccessToken(null);
-            setUser(null);
+            console.log("Error")
           }
         }
         return Promise.reject(error);
@@ -52,21 +57,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // --- Login ---
   const login = async ({ email, password }: any) => {
     const res = await api.post("/auth/login", { email, password });
-    const { token, user } = res.data;
+    const { token } = res.data;
 
     setAccessToken(token);
-    setUser(user);
 
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const profile = await api.get("/auth/profile");
+        setUser(profile.data.data);
   };
-  const register = async ({ name, email, password,role }: any) => {
-    await api.post("/auth/signup", { name, email, password,role });
+  const register = async ({ name, email, password,role,schoolName,class_section }: any) => {
+    await api.post("/auth/signup", { name, email, password,role,schoolName,class_section });
   };
   // --- Logout ---
   const logout = async () => {
     await api.post("/auth/logout"); // backend should clear refresh cookie
-    setAccessToken(null);
-    setUser(null);
+   console.log("Error while logging out")
   };
 
   // --- Load user on mount (try refresh) ---
@@ -80,8 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const profile = await api.get("/auth/profile");
         setUser(profile.data.data);
       } catch {
-        setAccessToken(null);
-        setUser(null);
+        console.log("Error")
       } finally {
         setLoading(false);
       }

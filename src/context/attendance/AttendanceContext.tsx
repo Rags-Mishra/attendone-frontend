@@ -13,11 +13,9 @@ export interface Student {
 }
 
 export interface AttendanceContextType {
-  classes: Class[];
   students: Student[];
   setStudents:React.Dispatch<React.SetStateAction<Student[]>>
   loading: boolean;
-  fetchClasses: () => Promise<void>;
   fetchStudents: (classId: string) => Promise<void>;
   markAttendance: (classId: string, date: string, records: Record<string, string>[]) => Promise<void>;
 }

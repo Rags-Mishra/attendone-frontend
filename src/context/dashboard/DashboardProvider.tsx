@@ -10,10 +10,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [dashboardData, setDashboardData] = useState<DashboardData|null>(null);
   const [loading, setLoading] = useState(false);
 const {token}=useAuth();
-api.interceptors.request.use((config) => {
-  console.log("Final request headers:", config.headers);
-  return config;
-});
+
 
 const fetchDashboardData = useCallback(async () => {
     setLoading(true);
