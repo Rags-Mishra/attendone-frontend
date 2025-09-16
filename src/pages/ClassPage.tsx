@@ -29,7 +29,7 @@ interface ClassSection {
   totalStudents: number
 }
 
-export default function AttendanceDashboard() {
+export default function ClassPage() {
  
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingClass, setEditingClass] = useState<ClassSection | null>(null)
