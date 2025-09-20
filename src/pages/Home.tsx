@@ -64,7 +64,6 @@ useEffect(() => {
    console.log(dashboardData)
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
 
       {/* Main content with proper spacing for fixed navbar */}
       <main className="pt-16">
@@ -179,9 +178,10 @@ useEffect(() => {
                   <Button
                     variant="outline"
                     className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
+                    onClick={()=>navigate('/view-attendance')}
                   >
                     <FileText className="h-6 w-6" />
-                    <span className="font-medium">View Reports</span>
+                    <span className="font-medium">View Attendance</span>
                   </Button>
 
                   <Button

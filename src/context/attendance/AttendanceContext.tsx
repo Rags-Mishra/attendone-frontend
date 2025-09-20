@@ -5,6 +5,19 @@ export interface Class {
   name: string;
   student_count:string;
 }
+export interface StudentAttendanceData {
+  [className: string]: {
+    students: {
+      id: number;
+      name: string;
+      status: "Present" | "Absent" | "Late" ; // can extend if more statuses exist
+    }[];
+    grade:string,
+    section:string,
+    date: string; // optional if you want to include attendance date
+    totalStudents: number; // optional if you want a count
+  };
+}
 
 export interface Student {
   id: string;
@@ -13,12 +26,12 @@ export interface Student {
 }
 
 export interface AttendanceContextType {
-  classes: Class[];
   students: Student[];
   setStudents:React.Dispatch<React.SetStateAction<Student[]>>
   loading: boolean;
-  fetchClasses: () => Promise<void>;
+  attendanceData: StudentAttendanceData|null;
   fetchStudents: (classId: string) => Promise<void>;
+  fetchAttendance: (school_id: number, date:string) => Promise<void>;
   markAttendance: (classId: string, date: string, records: Record<string, string>[]) => Promise<void>;
 }
 

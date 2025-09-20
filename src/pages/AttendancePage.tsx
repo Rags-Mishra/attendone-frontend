@@ -14,18 +14,20 @@ import { Users, CalendarIcon, Save, CheckCircle2, XCircle, AlertCircle } from "l
 import { useAttendance } from "@/hooks/useAttendance"  // 👈 using your custom hook
 import { useAuth } from "@/hooks/useAuth"
 import type { Student } from "@/context/attendance/AttendanceContext"
+import { useClass } from "@/hooks/useClass"
 
 type AttendanceStatus = "Present" | "Absent" | "Late"
 
 export default function AttendancePage() {
-  const { classes, students, fetchClasses, fetchStudents, markAttendance,setStudents } = useAttendance()
+  const {  students,  fetchStudents, markAttendance,setStudents } = useAttendance()
+  const {classes,fetchClasses}=  useClass()
   const [selectedClass, setSelectedClass] = useState<string>("")
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [isSaving, setIsSaving] = useState(false)
-  const {token}=useAuth()
+  const {token,user}=useAuth()
   // Load classes once
   useEffect(() => {
-    if(token)fetchClasses()
+    if(token)fetchClasses(user.school_id)
   }, [token])
 
   // Load students whenever class changes
@@ -117,7 +119,7 @@ console.log({
                   </SelectTrigger>
                   <SelectContent>
                     {classes&&classes?.map((cls) => (
-                      <SelectItem key={cls.id} value={cls.id}>
+                      <SelectItem key={cls.id} value={cls.id.toString()}>
                         <div className="flex items-center justify-between w-full">
                           <span>{cls.name}</span>
                           <Badge variant="secondary" className="ml-2">
@@ -178,7 +180,7 @@ console.log({
             <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-card-foreground">
-                  Student Attendance - {classes.find((c) => c.id === selectedClass)?.name}
+                  Student Attendance - {classes.find((c) => c.id.toString() === selectedClass)?.name}
                 </CardTitle>
                 <Button
                   onClick={handleSaveAttendance}
