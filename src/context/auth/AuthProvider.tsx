@@ -93,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(profile.data.data);
   };
   const register = async ({ name, email, password, role, schoolName, class_section }: any) => {
-    const res = await api.post("/auth/signup", { name, email, password, role, schoolName, class_section });
+     await api.post("/auth/signup", { name, email, password, role, schoolName, class_section });
     
   };
   // --- Logout ---

@@ -79,7 +79,7 @@ const calculateAttendanceStats = (students: Student[]) => {
 export function AttendancePanel() {
   const { fetchAttendance, attendanceData } = useAttendance()
   const { token, user } = useAuth()
-  const [selectedClass, setSelectedClass] = useState<string>("all")
+  const selectedClass="all"
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
