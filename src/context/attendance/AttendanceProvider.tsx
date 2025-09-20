@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AttendanceContext from "./AttendanceContext";
-import type { Class, Student, AttendanceContextType } from "./AttendanceContext";
+import type { Class, Student, AttendanceContextType, StudentAttendanceData } from "./AttendanceContext";
 import api from "@/lib/axios";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -8,8 +8,9 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [students, setStudents] = useState<Student[]>([]);
+  const [attendanceData, setAttendanceData] = useState<StudentAttendanceData | null>(null);
   const [loading, setLoading] = useState(false);
-const {token}=useAuth();
+  const { token } = useAuth();
 
 
 
@@ -18,19 +19,19 @@ const {token}=useAuth();
     setLoading(true);
     try {
       const res = await api.get(`/students/${classId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-      const attendance :any= []
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const attendance: any = []
 
-      res.data.map((data:any)=>{
+      res.data.map((data: any) => {
         attendance.push({
-          id:data.id,
-          name:data.name,
-          status:'Absent'
+          id: data.id,
+          name: data.name,
+          status: 'Absent'
         })
-    })
+      })
       setStudents(attendance);
-      
+
     } catch (err) {
       console.error("Error fetching students", err);
     } finally {
@@ -49,9 +50,23 @@ const {token}=useAuth();
         date,
         records,
       }, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+        headers: { Authorization: `Bearer ${token}` },
+      });
       console.log("Attendance marked successfully!");
+    } catch (err) {
+      console.error("Error marking attendance", err);
+    }
+  };
+  const fetchAttendance = async (
+    school_id: number,
+    date: string,
+  ) => {
+    try {
+      const response = await api.get(`/attendance?school_id=${school_id}&date=${date}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAttendanceData(response.data)
+      console.log("Attendance fetched successfully!");
     } catch (err) {
       console.error("Error marking attendance", err);
     }
@@ -63,6 +78,8 @@ const {token}=useAuth();
     setStudents,
     fetchStudents,
     markAttendance,
+    fetchAttendance,
+    attendanceData
   };
 
   return <AttendanceContext.Provider value={value}>{children}</AttendanceContext.Provider>;

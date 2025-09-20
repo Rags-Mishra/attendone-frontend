@@ -17,6 +17,8 @@ export interface AuthContextType {
   login: ({email, password}:any) => Promise<void>;
   register: ({name, email, password,role}:any) => Promise<void>;
   logout: () => void;
+  googleSignUp: ({idToken,role,school_id,classSection}:any) => void;
+  googleSignIn: ({idToken}:any) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
