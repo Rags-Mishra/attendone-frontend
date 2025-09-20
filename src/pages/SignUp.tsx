@@ -33,7 +33,7 @@ const Signup = () => {
     classSection: "",
   })
 
-  const { register, googleSignUp } = useAuth()
+  const { register } = useAuth()
   const { fetchClasses, classes } = useClass()
   const { schools, fetchSchools } = useSchool()
 

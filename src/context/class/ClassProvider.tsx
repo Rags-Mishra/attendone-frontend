@@ -27,7 +27,7 @@ const fetchClasses = async (school_id:number) => {
   const createClass = async (data: Partial<Class>) => {
     setLoading(true);
     try {
-      const res = await api.post("/classes",data, {
+      await api.post("/classes",data, {
         headers: { Authorization: `Bearer ${token}` }
       });
     } catch (err) {
@@ -41,7 +41,7 @@ const fetchClasses = async (school_id:number) => {
     setLoading(true);
     try {
       console.log("token in here",token)
-      const res = await api.put(`/classes/${id}`, data,{
+      await api.put(`/classes/${id}`, data,{
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {
@@ -53,7 +53,7 @@ const fetchClasses = async (school_id:number) => {
   const deleteClass = async (id: number) => {
     setLoading(true);
     try {
-      const res = await api.delete(`/classes/${id}`, {
+      await api.delete(`/classes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AttendanceContext from "./AttendanceContext";
-import type { Class, Student, AttendanceContextType, StudentAttendanceData } from "./AttendanceContext";
+import type {  Student, AttendanceContextType, StudentAttendanceData } from "./AttendanceContext";
 import api from "@/lib/axios";
 import { useAuth } from "@/hooks/useAuth";
 

@@ -1,7 +1,7 @@
 // useToast.tsx
 import type { ToastContextType } from "@/context/toast/ToastContext"
 import ToastContext from "@/context/toast/ToastContext"
-import { createContext, useContext, useState, useCallback } from "react"
+import {  useContext } from "react"
 
 export const useToast = ():ToastContextType => {
   const context = useContext(ToastContext)

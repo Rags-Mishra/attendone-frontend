@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { Trash2, Edit, Plus, Users, BookOpen, GraduationCap } from "lucide-react"
+import { Trash2, Edit, Plus, Users, BookOpen } from "lucide-react"
 import { useToast } from "@/hooks/useToast"
 import { useClass } from "@/hooks/useClass"
 import { useAuth } from "@/hooks/useAuth"
@@ -107,7 +107,6 @@ deleteClass(id)
     setFormData({ className: "", section: "", totalStudents: 0 })
   }
 
-  const totalStudentsCount = classes.reduce((sum, c) => sum + c.student_count, 0)
 useEffect(()=>{
   if(token&&user)fetchClasses(user.school_id)
 
