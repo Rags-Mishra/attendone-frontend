@@ -1,19 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
   Users,
   UserCheck,
   UserX,
   Calendar,
   BarChart3,
-  Clock,
   Plus,
   FileText,
   Settings,
   BookOpen,
   Award,
-  AlertCircle,
 } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
 import { useNavigate } from "react-router-dom"
@@ -25,14 +22,7 @@ export default function DashboardPage() {
   const { user, token } = useAuth()
   const navigate = useNavigate()
   const { dashboardData, fetchDashboardData } = useDashboard()
-  const teacherData = {
-
-    recentActivity: [
-      { action: "Attendance marked", class: "Grade 10A", time: "2 hours ago" },
-      { action: "Report generated", class: "Grade 9B", time: "4 hours ago" },
-      { action: "Student added", class: "Grade 11C", time: "1 day ago" },
-    ],
-  }
+ 
 
   const studentData = {
     attendanceStats: {
@@ -51,7 +41,6 @@ export default function DashboardPage() {
 
   const isTeacher = user && user.role === "teacher" || user && user.role === "admin"
   const stats = studentData.attendanceStats
-  const recentActivity = isTeacher ? teacherData.recentActivity : studentData.recentActivity
 
 
   console.log(stats)

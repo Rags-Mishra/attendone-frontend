@@ -1,21 +1,11 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [message, setMessage] = useState('');
 
-  const handleButtonClick = (action:any) => {
-    setMessage(`Action: "${action}" was clicked!`);
-    setTimeout(() => setMessage(''), 3000);
-  };
 
-  const menuItems = [
-    { name: 'Features', href: '#features' },
-    { name: 'Testimonials', href: '#testimonials' },
-    { name: 'Pricing', href: '#pricing' },
-  ];
+
+
 
   const features = [
     {
@@ -23,7 +13,7 @@ const HomePage = () => {
       description: 'Attendance data is instantly synced across all devices, ensuring everyone has the most up-to-date information.',
       icon: (
         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.01l-9 9z"/>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.01l-9 9z" />
         </svg>
       ),
     },
@@ -32,7 +22,7 @@ const HomePage = () => {
       description: 'Generate insightful reports on attendance trends, absentees, and more with just a few clicks.',
       icon: (
         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.001 14H5zm2-3h10v2H7v-2zm0-4h10v2H7v-2zm0-4h10v2H7V9z"/>
+          <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.001 14H5zm2-3h10v2H7v-2zm0-4h10v2H7v-2zm0-4h10v2H7V9z" />
         </svg>
       ),
     },
@@ -41,7 +31,7 @@ const HomePage = () => {
       description: 'Quickly add, edit, or remove students and classes with an intuitive, user-friendly interface.',
       icon: (
         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5z"/>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5z" />
         </svg>
       ),
     },
@@ -50,7 +40,7 @@ const HomePage = () => {
       description: 'All data is encrypted and securely stored, ensuring the privacy of your students and staff.',
       icon: (
         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99l-5 2.5V12l5-2.5 5 2.5v2.49l-5-2.5zm0-2.49l-5-2.5V8.5l5-2.5 5 2.5V9.5z"/>
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99l-5 2.5V12l5-2.5 5 2.5v2.49l-5-2.5zm0-2.49l-5-2.5V8.5l5-2.5 5 2.5V9.5z" />
         </svg>
       ),
     },
@@ -59,13 +49,7 @@ const HomePage = () => {
   return (
     <>
       {/* Message Box for UI feedback */}
-      <div
-        className={`fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full text-white bg-blue-600 shadow-xl transition-opacity duration-500 ease-in-out ${
-          message ? 'opacity-100 block' : 'opacity-0 hidden'
-        }`}
-      >
-        {message}
-      </div>
+
 
       {/* Header & Navigation */}
 
@@ -83,7 +67,7 @@ const HomePage = () => {
             <button onClick={() => navigate('/login')} className="w-full sm:w-auto px-8 py-3 rounded-full bg-blue-500 text-white font-semibold text-lg shadow-xl hover:bg-blue-700 transition-colors duration-200 transform hover:scale-105">
               Start with Free Account
             </button>
-           
+
           </div>
         </div>
       </main>
@@ -139,7 +123,7 @@ const HomePage = () => {
           <p className="mt-4 text-lg md:text-xl opacity-90">
             Join thousands of schools that are saving time and gaining valuable insights with our platform. Get started for free today!
           </p>
-          <button onClick={() =>navigate('/login')} className="mt-8 px-10 py-4 rounded-full bg-white text-blue-600 font-semibold text-lg shadow-xl hover:bg-gray-100 transition-colors duration-200 transform hover:scale-105">
+          <button onClick={() => navigate('/login')} className="mt-8 px-10 py-4 rounded-full bg-white text-blue-600 font-semibold text-lg shadow-xl hover:bg-gray-100 transition-colors duration-200 transform hover:scale-105">
             Get Started
           </button>
         </div>
