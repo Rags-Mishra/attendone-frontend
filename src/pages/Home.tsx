@@ -1,325 +1,161 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import {
-  Users,
-  UserCheck,
-  UserX,
-  Calendar,
-  BarChart3,
-  Clock,
-  Plus,
-  FileText,
-  Settings,
-  BookOpen,
-  Award,
-  AlertCircle,
-} from "lucide-react"
-import { useAuth } from "@/hooks/useAuth"
-import { useNavigate } from "react-router-dom"
-import { useDashboard } from "@/hooks/useDashboard"
-import { useEffect } from "react"
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function HomePage() {
-  // Mock user data - replace with your actual auth logic
- const {user,token}=useAuth()
-const navigate = useNavigate()
-const {dashboardData,fetchDashboardData}=useDashboard()
-  const teacherData = {
- 
-    recentActivity: [
-      { action: "Attendance marked", class: "Grade 10A", time: "2 hours ago" },
-      { action: "Report generated", class: "Grade 9B", time: "4 hours ago" },
-      { action: "Student added", class: "Grade 11C", time: "1 day ago" },
-    ],
-  }
+const HomePage = () => {
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const studentData = {
-    attendanceStats: {
-      totalClasses: 45,
-      classesAttended: 42,
-      classesAbsent: 3,
-      attendanceRate: 93.3,
-      lateArrivals: 2,
+  const handleButtonClick = (action:any) => {
+    setMessage(`Action: "${action}" was clicked!`);
+    setTimeout(() => setMessage(''), 3000);
+  };
+
+  const menuItems = [
+    { name: 'Features', href: '#features' },
+    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'Pricing', href: '#pricing' },
+  ];
+
+  const features = [
+    {
+      title: 'Real-Time Sync',
+      description: 'Attendance data is instantly synced across all devices, ensuring everyone has the most up-to-date information.',
+      icon: (
+        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.01l-9 9z"/>
+        </svg>
+      ),
     },
-    recentActivity: [
-      { action: "Attended class", class: "Mathematics", time: "2 hours ago" },
-      { action: "Assignment submitted", class: "English", time: "1 day ago" },
-      { action: "Quiz completed", class: "Science", time: "2 days ago" },
-    ],
-  }
+    {
+      title: 'Automated Reporting',
+      description: 'Generate insightful reports on attendance trends, absentees, and more with just a few clicks.',
+      icon: (
+        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.001 14H5zm2-3h10v2H7v-2zm0-4h10v2H7v-2zm0-4h10v2H7V9z"/>
+        </svg>
+      ),
+    },
+    {
+      title: 'Easy Student Management',
+      description: 'Quickly add, edit, or remove students and classes with an intuitive, user-friendly interface.',
+      icon: (
+        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5z"/>
+        </svg>
+      ),
+    },
+    {
+      title: 'Secure & Private',
+      description: 'All data is encrypted and securely stored, ensuring the privacy of your students and staff.',
+      icon: (
+        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99l-5 2.5V12l5-2.5 5 2.5v2.49l-5-2.5zm0-2.49l-5-2.5V8.5l5-2.5 5 2.5V9.5z"/>
+        </svg>
+      ),
+    },
+  ];
 
-  const isTeacher = user&&user.role === "teacher"||user&&user.role==="admin"
-  const stats = studentData.attendanceStats
-  const recentActivity = isTeacher ? teacherData.recentActivity : studentData.recentActivity
-
-
-  console.log(stats)
-useEffect(() => {
-  // fetchDashboardData()
-  if((user?.role=='admin'||user?.role=='teacher')&&token){
-  fetchDashboardData()}},
-   [token,user,fetchDashboardData])
-   console.log(dashboardData)
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      {/* Message Box for UI feedback */}
+      <div
+        className={`fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full text-white bg-blue-600 shadow-xl transition-opacity duration-500 ease-in-out ${
+          message ? 'opacity-100 block' : 'opacity-0 hidden'
+        }`}
+      >
+        {message}
+      </div>
 
-      {/* Main content with proper spacing for fixed navbar */}
-      <main className="pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Welcome Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-2 text-balance">Welcome back, {user&&user.name}</h1>
-            <p className="text-lg text-muted-foreground">
-              {isTeacher ? "Here's your attendance overview for today" : "Here's your attendance summary"}
-            </p>
-          </div>
+      {/* Header & Navigation */}
 
-          {/* Quick Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {isTeacher ? (
-              <>
-                <Card className="bg-card border-border">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-card-foreground">Total Students</CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-card-foreground">{dashboardData?.total_students}</div>
-                    <p className="text-xs text-muted-foreground">Across all classes</p>
-                  </CardContent>
-                </Card>
 
-                <Card className="bg-card border-border">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-card-foreground">Present Today</CardTitle>
-                    <UserCheck className="h-4 w-4 text-green-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-green-600">{dashboardData?.present_today}</div>
-                    <p className="text-xs text-muted-foreground">Students in attendance</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-card border-border">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-card-foreground">Absent Today</CardTitle>
-                    <UserX className="h-4 w-4 text-red-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-red-600">{(dashboardData?.total_students||0)-(dashboardData?.present_today||0)}</div>
-                    <p className="text-xs text-muted-foreground">Students absent</p>
-                  </CardContent>
-                </Card>
-              </>
-            ) : (
-              <>
-                <Card className="bg-card border-border">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-card-foreground">Total Classes</CardTitle>
-                    <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-card-foreground">{stats.totalClasses}</div>
-                    <p className="text-xs text-muted-foreground">This semester</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-card border-border">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-card-foreground">Classes Attended</CardTitle>
-                    <UserCheck className="h-4 w-4 text-green-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-green-600">{stats?.classesAttended}</div>
-                    <p className="text-xs text-muted-foreground">Out of {stats?.totalClasses}</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-card border-border">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-card-foreground">Classes Missed</CardTitle>
-                    <UserX className="h-4 w-4 text-red-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-red-600">{stats?.classesAbsent}</div>
-                    <p className="text-xs text-muted-foreground">Absences recorded</p>
-                  </CardContent>
-                </Card>
-              </>
-            )}
-
-            <Card className="bg-card border-border">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-card-foreground">Attendance Rate</CardTitle>
-                <BarChart3 className="h-4 w-4 text-secondary" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-primary">{((dashboardData?.present_today||0)/(dashboardData?.total_students||1)).toFixed(2)}%</div>
-                <p className="text-xs text-muted-foreground">
-                  {isTeacher ? "Today's overall rate" : "Your overall rate"}
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-foreground mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {isTeacher ? (
-                <>
-                  <Button className="h-auto p-6 flex flex-col items-center gap-3 bg-secondary hover:bg-secondary/90 text-secondary-foreground" onClick={()=>navigate('/mark-attendance')}>
-                    <Plus className="h-6 w-6" />
-                    <span className="font-medium">Mark Attendance</span>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
-                    onClick={()=>navigate('/view-attendance')}
-                  >
-                    <FileText className="h-6 w-6" />
-                    <span className="font-medium">View Attendance</span>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
-                  >
-                    <Users className="h-6 w-6" />
-                    <span className="font-medium">Manage Students</span>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
-                  >
-                    <Settings className="h-6 w-6" />
-                    <span className="font-medium">Settings</span>
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button className="h-auto p-6 flex flex-col items-center gap-3 bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-                    <BarChart3 className="h-6 w-6" />
-                    <span className="font-medium">View My Attendance</span>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
-                  >
-                    <Calendar className="h-6 w-6" />
-                    <span className="font-medium">Class Schedule</span>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
-                  >
-                    <Award className="h-6 w-6" />
-                    <span className="font-medium">Achievements</span>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex flex-col items-center gap-3 border-border hover:bg-muted bg-transparent"
-                  >
-                    <Settings className="h-6 w-6" />
-                    <span className="font-medium">Profile</span>
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Recent Activity & Alerts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Recent Activity */}
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-card-foreground">Recent Activity</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {recentActivity.map((activity, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted">
-                    <div>
-                      <p className="font-medium text-card-foreground">{activity.action}</p>
-                      <p className="text-sm text-muted-foreground">{activity.class}</p>
-                    </div>
-                    <Badge variant="secondary" className="text-xs">
-                      {activity.time}
-                    </Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Alerts/Notifications */}
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-card-foreground">{isTeacher ? "Today's Alerts" : "Notifications"}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {isTeacher ? (
-                  <>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
-                      <Clock className="h-5 w-5 text-yellow-600" />
-                      <div>
-                        <p className="font-medium text-yellow-800">Late Arrivals</p>
-                        <p className="text-sm text-yellow-700">{stats.lateArrivals} students arrived late today</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
-                      <Calendar className="h-5 w-5 text-blue-600" />
-                      <div>
-                        <p className="font-medium text-blue-800">Upcoming Events</p>
-                        <p className="text-sm text-blue-700">Parent-teacher conference next week</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200">
-                      <BarChart3 className="h-5 w-5 text-green-600" />
-                      <div>
-                        <p className="font-medium text-green-800">Great Attendance!</p>
-                        <p className="text-sm text-green-700">Grade 12A has 100% attendance this week</p>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200">
-                      <Award className="h-5 w-5 text-green-600" />
-                      <div>
-                        <p className="font-medium text-green-800">Perfect Attendance!</p>
-                        <p className="text-sm text-green-700">You've attended all classes this week</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
-                      <Calendar className="h-5 w-5 text-blue-600" />
-                      <div>
-                        <p className="font-medium text-blue-800">Upcoming Class</p>
-                        <p className="text-sm text-blue-700">Mathematics at 10:00 AM tomorrow</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
-                      <AlertCircle className="h-5 w-5 text-yellow-600" />
-                      <div>
-                        <p className="font-medium text-yellow-800">Attendance Goal</p>
-                        <p className="text-sm text-yellow-700">You're 2% away from 95% attendance rate</p>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
+      {/* Hero Section */}
+      <main className="bg-gray-100 py-16 md:py-24 px-4 md:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+            Seamless Attendance. <br className="hidden sm:inline" /> Simplified for Schools.
+          </h2>
+          <p className="mt-4 md:mt-6 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+            AttenDone streamlines the entire attendance process, saving teachers valuable time and providing real-time insights for administrators.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <button onClick={() => navigate('/login')} className="w-full sm:w-auto px-8 py-3 rounded-full bg-blue-500 text-white font-semibold text-lg shadow-xl hover:bg-blue-700 transition-colors duration-200 transform hover:scale-105">
+              Start with Free Account
+            </button>
+           
           </div>
         </div>
       </main>
-    </div>
-  )
-}
+
+      {/* Features Section */}
+      <section id="features" className="py-16 md:py-24 px-4 md:px-8 lg:px-12 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-900">Key Features</h3>
+          <p className="text-center text-gray-600 mt-2 max-w-xl mx-auto">Designed to make attendance tracking as simple and efficient as possible for everyone involved.</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-gray-50 rounded-2xl p-6 shadow-md border border-gray-100 flex flex-col items-start text-left hover:shadow-lg transition-shadow duration-300">
+                <div className="p-3 rounded-full bg-blue-100 text-blue-600 mb-4">{feature.icon}</div>
+                <h4 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h4>
+                <p className="text-gray-600">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      {/* <section id="testimonials" className="py-16 md:py-24 px-4 md:px-8 lg:px-12 bg-gray-100">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-900">What Our Schools Say</h3>
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+            <div className="bg-white rounded-2xl p-8 shadow-md border border-gray-200">
+              <p className="text-gray-700 italic leading-relaxed">
+                "Attendance Pro has completely transformed our morning routine. What used to take 15 minutes now takes less than 2, and the reporting for our district is a lifesaver."
+              </p>
+              <div className="mt-4 text-sm font-semibold text-gray-900">
+                <p>— Emily Carter</p>
+                <p className="text-gray-500 font-normal">Principal, Oakwood Elementary School</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-md border border-gray-200">
+              <p className="text-gray-700 italic leading-relaxed">
+                "My teachers love the simplicity and ease of use. The system is intuitive, and we can pull attendance records instantly for parent meetings or audits."
+              </p>
+              <div className="mt-4 text-sm font-semibold text-gray-900">
+                <p>— John Davis</p>
+                <p className="text-gray-500 font-normal">Superintendent, Northwood School District</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+      {/* Pricing/CTA Section */}
+      <section id="pricing" className="py-16 md:py-24 px-4 md:px-8 lg:px-12 bg-blue-600 text-white text-center">
+        <div className="max-w-3xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-bold">Ready to Simplify Attendance?</h3>
+          <p className="mt-4 text-lg md:text-xl opacity-90">
+            Join thousands of schools that are saving time and gaining valuable insights with our platform. Get started for free today!
+          </p>
+          <button onClick={() =>navigate('/login')} className="mt-8 px-10 py-4 rounded-full bg-white text-blue-600 font-semibold text-lg shadow-xl hover:bg-gray-100 transition-colors duration-200 transform hover:scale-105">
+            Get Started
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-4 md:px-8 lg:px-12 bg-gray-800 text-gray-300 text-center text-sm">
+        <p>© 2024 AttenDone. All rights reserved.</p>
+        <div className="mt-2 flex justify-center space-x-4">
+          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <span className="text-gray-500">|</span>
+          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+        </div>
+      </footer>
+    </>
+  );
+};
+
+export default HomePage;

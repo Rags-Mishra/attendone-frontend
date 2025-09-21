@@ -25,7 +25,7 @@ const Login = () => {
       return;
     }
     login({ email, password });
-    navigate("/");
+    navigate("/dashboard");
   };
 
   const onTestAccount = () => {

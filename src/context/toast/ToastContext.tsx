@@ -2,8 +2,7 @@ import { createContext,  } from "react"
 
 export interface ToastProps  {
   id: number
-  title: string
-  description?: string
+ message:string
   type?: "success" | "error" | "info"
 }
 

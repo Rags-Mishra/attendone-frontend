@@ -19,15 +19,15 @@ import { useClass } from "@/hooks/useClass"
 type AttendanceStatus = "Present" | "Absent" | "Late"
 
 export default function AttendancePage() {
-  const {  students,  fetchStudents, markAttendance,setStudents } = useAttendance()
-  const {classes,fetchClasses}=  useClass()
+  const { students, fetchStudents, markAttendance, setStudents } = useAttendance()
+  const { classes, fetchClasses } = useClass()
   const [selectedClass, setSelectedClass] = useState<string>("")
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [isSaving, setIsSaving] = useState(false)
-  const {token,user}=useAuth()
+  const { token, user } = useAuth()
   // Load classes once
   useEffect(() => {
-    if(token)fetchClasses(user.school_id)
+    if (token) fetchClasses(user.school_id)
   }, [token])
 
   // Load students whenever class changes
@@ -39,13 +39,13 @@ export default function AttendancePage() {
 
   const handleStatusChange = (studentId: string, status: AttendanceStatus) => {
     // update locally
-setStudents((prev: Student[]) =>
-  prev.map((student) =>
-    student.id === studentId
-      ? { ...student, status } // update this student's status
-      : student                // keep others unchanged
-  )
-);
+    setStudents((prev: Student[]) =>
+      prev.map((student) =>
+        student.id === studentId
+          ? { ...student, status } // update this student's status
+          : student                // keep others unchanged
+      )
+    );
 
   }
 
@@ -53,15 +53,15 @@ setStudents((prev: Student[]) =>
     if (!selectedClass) return
     setIsSaving(true)
 
-    const records=students.map((s) => ({
-  studentId: s.id,
-  status: s.status   // keep status as "Present"/"Absent"/"Late"
-}))
-console.log({
-  classId:selectedClass,
-  date:format(selectedDate, "yyyy-MM-dd"),
-  records:records
-})
+    const records = students.map((s) => ({
+      studentId: s.id,
+      status: s.status   // keep status as "Present"/"Absent"/"Late"
+    }))
+    console.log({
+      classId: selectedClass,
+      date: format(selectedDate, "yyyy-MM-dd"),
+      records: records
+    })
     await markAttendance(selectedClass, format(selectedDate, "yyyy-MM-dd"), records)
     setIsSaving(false)
     console.log("Attendance saved successfully")
@@ -92,7 +92,6 @@ console.log({
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
 
       <main className="pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -118,7 +117,7 @@ console.log({
                     <SelectValue placeholder="Choose a class to mark attendance" />
                   </SelectTrigger>
                   <SelectContent>
-                    {classes&&classes?.map((cls) => (
+                    {classes && classes?.map((cls) => (
                       <SelectItem key={cls.id} value={cls.id.toString()}>
                         <div className="flex items-center justify-between w-full">
                           <span>{cls.name}</span>
@@ -252,7 +251,7 @@ console.log({
                   ))}
                 </div>
               </CardContent>
-              
+
             </Card>
           )}
         </div>

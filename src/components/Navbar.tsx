@@ -20,11 +20,15 @@ export const Navbar = () => {
   const navigate = useNavigate()
   const [showLogoutDialog, setShowLogoutDialog] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-const {user,logout}=useAuth();
-console.log({user:user})
-  const handleLogout = () => {
-   logout()
-   navigate('/login')
+  const { user, logout } = useAuth();
+  console.log({ user: user })
+  const handleLogout = async () => {
+    try {
+      logout()
+    } catch (error) {
+      console.log(error)
+    }
+    navigate('/login')
     setShowLogoutDialog(false)
   }
 
@@ -40,90 +44,82 @@ console.log({user:user})
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border z-50">
-        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 group">
-              <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <Calendar className="h-5 w-5 text-primary" />
-              </div>
-              <span className="text-xl font-mono font-bold tracking-wider text-foreground group-hover:text-primary transition-colors">
-                AttenDone
-              </span>
+      <header className="py-6 px-4 md:px-8 lg:px-12 bg-white shadow-sm sticky top-0 z-50">
+        <nav className="flex justify-between items-center max-w-7xl mx-auto">
+          <Link to='/'>
+            <div className="flex items-center space-x-2">
+              <svg className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.835 5.47 9.248 5 7.5 5 4.464 5 2 7.234 2 10s2.464 5 5.5 5c1.748 0 3.335-.47 4.5-1.253m0-13C13.165 5.47 14.752 5 16.5 5c3.036 0 5.5 2.234 5.5 5s-2.464 5-5.5 5c-1.748 0-3.335-.47-4.5-1.253" />
+              </svg>
+              <h1 className="text-xl font-bold text-gray-900">AttenDone</h1>
+            </div>
+          </Link>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
+            <Link
+              to="/"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
+              Home
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              <Link
-                to="/"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                About
-              </Link>
-            </div>
-
-            {/* User Menu / Login */}
-            <div className="flex items-center space-x-4">
-              {!user ? (
-                <Button asChild size="sm" className="bg-primary text-white hover:bg-primary/80">
-                  <Link to="/login">Login</Link>
-                </Button>
-              ) : (
-                <div className="flex items-center space-x-3">
-                  {/* User info - hidden on mobile */}
-                  <div className="hidden sm:block text-right">
-                    <p className="text-sm font-medium text-foreground">{user.name}</p>
-                    <p className="text-xs text-muted-foreground capitalize">{user.role }</p>
-                  </div>
-
-                  {/* User dropdown */}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="relative h-10 w-10 rounded-full">
-                        <Avatar className="h-10 w-10">
-                          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                            {getUserInitials(user.name)}
-                          </AvatarFallback>
-                        </Avatar>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" align="end" forceMount>
-                      <div className="flex items-center justify-start gap-2 p-2 sm:hidden">
-                        <div className="flex flex-col space-y-1 leading-none">
-                          <p className="font-medium text-sm">{user.name}</p>
-                          <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
-                        </div>
-                      </div>
-                      <DropdownMenuItem
-                        className="text-destructive focus:text-destructive cursor-pointer"
-                        onClick={() => setShowLogoutDialog(true)}
-                      >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Logout
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              )}
-
-              {/* Mobile menu button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
-            </div>
           </div>
+
+          {/* User Menu / Login */}
+          <div className="flex items-center space-x-4">
+            {!user.id ? (
+              <Button asChild size="sm" className="bg-primary text-white hover:bg-primary">
+                <Link to="/login">Login</Link>
+              </Button>
+            ) : (
+              <div className="flex items-center space-x-3">
+                {/* User info - hidden on mobile */}
+                <div className="hidden sm:block text-right">
+                  <p className="text-sm font-medium text-foreground">{user.name}</p>
+                  <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
+                </div>
+
+                {/* User dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="relative h-10 w-10 rounded-full">
+                      <Avatar className="h-10 w-10">
+                        <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                          {getUserInitials(user.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <div className="flex items-center justify-start gap-2 p-2 sm:hidden">
+                      <div className="flex flex-col space-y-1 leading-none">
+                        <p className="font-medium text-sm">{user.name}</p>
+                        <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
+                      </div>
+                    </div>
+                    <DropdownMenuItem
+                      className="text-destructive focus:text-destructive cursor-pointer"
+                      onClick={() => setShowLogoutDialog(true)}
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
+
+            {/* Mobile menu button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+          </div>
+
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
@@ -146,10 +142,11 @@ console.log({user:user})
               </div>
             </div>
           )}
-        </div>
-      </nav>
 
-      {/* Logout Confirmation Dialog */}
+        </nav>
+      </header>
+
+
       <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

@@ -20,15 +20,16 @@ import { ToastProvider } from "./context/toast/ToastProvider";
 import { ClassProvider } from "./context/class/ClassProvider";
 import { SchoolProvider } from "./context/school/SchoolProvider";
 import { AttendancePanel } from "./pages/AttendancePanel";
+import DashboardPage from "./pages/Dashboard";
 // import StudentState from "./context/students/StudentState";
 // import AttendanceState from "./context/attendance/AttendanceState";
 
 function App() {
   return (
+      <ToastProvider>
 
     <AuthProvider>
       <SchoolProvider>
-      <ToastProvider>
         <ClassProvider>
         <AttendanceProvider>
           <DashboardProvider>
@@ -37,6 +38,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
               {/* <Route path="/teacherscreen" element={<TeacherScreen />} />
               <Route path="/attendancesheet" element={<AttendanceSheet />} />
               <Route path="/studentscreen" element={<StudentScreen />} />
@@ -54,9 +56,10 @@ function App() {
           </DashboardProvider>
         </AttendanceProvider>
         </ClassProvider>
-        </ToastProvider>
         </SchoolProvider>
     </AuthProvider>
+        </ToastProvider>
+
   );
 }
 

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthContext, type User } from "./AuthContext";
+import { useToast } from "@/hooks/useToast";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
@@ -11,6 +12,7 @@ const api = axios.create({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { toast } = useToast();
   const [token, setAccessToken] = useState<string>('');
   const [user, setUser] = useState<User>({
     name: '',
@@ -55,10 +57,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
   //google sign up 
   const googleSignUp = async ({ idToken, role, school_id, class_section }: any) => {
-    const res = await api.post("/auth/google", { idToken, role, school_id, class_section });
-
-    if (res && res.data) {
-      const { token } = res.data;
+    const response = await api.post("/auth/google", { idToken, role, school_id, class_section });
+    toast({
+      message: response.data.message,
+      type: response.data.status
+    })
+    if (response && response.data) {
+      const { token } = response.data;
       setAccessToken(token);
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const profile = await api.get("/auth/profile");
@@ -69,10 +74,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   //google sign in
   const googleSignIn = async ({ idToken }: any) => {
-    const res = await api.post("/auth/google", { idToken });
-
-    if (res && res.data) {
-      const { token } = res.data;
+    const response = await api.post("/auth/google", { idToken });
+    toast({
+      message: response.data.message,
+      type: response.data.status
+    })
+    if (response && response.data) {
+      const { token } = response.data;
       setAccessToken(token);
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const profile = await api.get("/auth/profile");
@@ -83,22 +91,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   // --- Login ---
   const login = async ({ email, password }: any) => {
-    const res = await api.post("/auth/login", { email, password });
-    const { token } = res.data;
+    try {
+      const response = await api.post("/auth/login", { email, password });
+      toast({
+        message: response.data.message,
+        type: response.data.status
+      })
+      const { token } = response.data;
 
-    setAccessToken(token);
+      setAccessToken(token);
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    const profile = await api.get("/auth/profile");
-    setUser(profile.data.data);
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const profile = await api.get("/auth/profile");
+      setUser(profile.data.data);
+    } catch (error: any) {
+      // Axios error has a `response` object
+      toast({
+        message: error.response?.data?.message || "Login failed",
+        type: "error",
+      });
+    }
+
   };
   const register = async ({ name, email, password, role, schoolName, class_section }: any) => {
-     await api.post("/auth/signup", { name, email, password, role, schoolName, class_section });
-    
+    const response = await api.post("/auth/signup", { name, email, password, role, schoolName, class_section });
+    toast({
+      message: response.data.message,
+      type: response.data.status
+    })
+
   };
   // --- Logout ---
   const logout = async () => {
-    await api.post("/auth/logout"); // backend should clear refresh cookie
+    const response = await api.post("/auth/logout");
+    toast({
+      message: response.data.message,
+      type: response.data.status
+    })
+    setUser({
+      name: '',
+      school_id: 0,
+      role: '',
+      id: 0,
+      email: ''
+    })
+    setAccessToken('')
+
     console.log("Error while logging out")
   };
 

@@ -64,7 +64,7 @@ const handleGoogleLogin=async()=>{
   } else if (selectedRole === "student") {
     googleSignUp({ idToken, role: selectedRole, school_id: selectedSchool, class_section: selectedClass });
   }
-navigate('/')
+navigate('/dashboard')
   alert(`Account created successfully as ${selectedRole} via Google!`);
 };
 

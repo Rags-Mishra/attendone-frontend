@@ -60,8 +60,7 @@ const {toast} =useToast();
   const handleDeleteClass = (id: number) => {
 deleteClass(id)
     toast({
-      title: "Class deleted",
-      description: "The class has been successfully removed.",
+      message: "The class has been successfully removed.",
       type:'success'
     })
       fetchClasses(user.school_id)
@@ -73,8 +72,7 @@ deleteClass(id)
 
     if (!formData.className || !formData.section) {
       toast({
-        title: "Error",
-        description: "Please fill in all fields with valid data.",
+        message: "Please fill in all fields with valid data.",
         type: "error",
       })
       return
@@ -83,8 +81,7 @@ deleteClass(id)
     if (editingClass) {
       modifyClass(editingClass.id,{name:formData.className.concat(" ",formData.section)})
       toast({
-        title: "Class updated",
-        description: "The class has been successfully updated.",
+       message: "The class has been successfully updated.",
         type:'success'
       })
       fetchClasses(user.school_id)
@@ -95,8 +92,7 @@ deleteClass(id)
         school_id:user?.school_id
       })
       toast({
-        title: "Class added",
-        description: "The new class has been successfully created.",
+        message: "The new class has been successfully created.",
         type:'success'
       })
       fetchClasses(user.school_id)
